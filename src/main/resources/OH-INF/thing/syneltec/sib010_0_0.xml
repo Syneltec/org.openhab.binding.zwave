@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="zwave"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+  xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0
+                      http://eclipse.org/smarthome/schemas/thing-description/v1.0.0">
+
+  <thing-type id="syneltec_sib010_00_000" listed="false">
+    <label>SIB-010 Sibir Z-Wave Heater Controller</label>
+    <description><![CDATA[
+SIB-010 Sibir Controller<br /><h1>Overview</h1><p>The Syneltec SIB-010 is a complete electronic controller for the Sibir Thermolino heater. Integrating the standard Z-Wave protocol for home automation (domotic network), it is then compatible with most Z-Wave Room Thermostat of the market</p><p>SIB-010 implements secure handling of PowerON / PowerOFF, in the respect of the Sibir Thermolino cycles constraints</p>
+    ]]></description>
+    <category>HVAC</category>
+
+    <!-- CHANNEL DEFINITIONS -->
+
+    <channels>
+      
+      <channel id="switch_binary" typeId="switch_binary">
+        <label>Switch</label>
+        <properties>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY</property>
+        </properties>
+      </channel>
+      <channel id="switch_binary1" typeId="switch_binary">
+        <label>Switch 1</label>
+        <properties>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY</property>
+        </properties>
+      </channel>
+      
+      <!--comment-->
+
+      <channel id="sensor_general" typeId="sensor_general">
+        <label>Sensor</label>
+        <properties>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL;type=GENERAL</property>
+        </properties>
+      </channel>
+      <channel id="sensor_general1" typeId="sensor_general">
+        <label>Sensor 1</label>
+        <properties>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL:1;type=GENERAL</property>
+        </properties>
+      </channel>
+      
+      <!--comment-->      
+      
+      <channel id="meter_voltage" typeId="meter_voltage">
+        <label>Voltage</label>
+        <properties>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_METER;type=E_V</property>
+        </properties>
+      </channel>
+      
+    </channels>
+
+    <!-- DEVICE PROPERTY DEFINITIONS -->
+    <properties>
+      <property name="vendor">SyneltecSA</property>
+      <property name="modelId">SIB010</property>
+      <property name="manufacturerId">0115</property>
+      <property name="manufacturerRef">0110:0001</property>
+      <property name="versionMin">1.0</property>
+      <property name="dbReference">494</property>
+    </properties>
+
+    <!-- CONFIGURATION DESCRIPTIONS -->
+    <config-description>
+
+      <!-- PARAMETER DEFINITIONS -->
+      <parameter-group name="configuration">
+        <context>setup</context>
+        <label>Configuration Parameters</label>
+      </parameter-group>
+
+      <parameter name="config_64_4" type="integer" groupName="configuration" min="0" max="15">
+        <label>64: Command Debounce Time  (1 sec steps)</label>
+        <description>Let little time while changing thermostat setpoint</description>
+        <default>5</default>
+      </parameter>
+
+      <parameter name="config_65_4" type="integer" groupName="configuration" min="0" max="30">
+        <label>65: Relay: Minimal ON time (1 min. steps)</label>
+        <description>Mask OFF order (default: 0 - off)</description>
+        <default>2</default>
+      </parameter>
+
+      <parameter name="config_66_4" type="integer" groupName="configuration" min="0" max="30">
+        <label>66: Relay: Minimal OFF time (1 min. steps)</label>
+        <description>Mask ON order (default: 0 - off)</description>
+        <default>2</default>
+      </parameter>
+
+
+    </config-description>
+
+  </thing-type>
+
+</thing:thing-descriptions>
