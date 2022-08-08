@@ -6,54 +6,72 @@
                       http://eclipse.org/smarthome/schemas/thing-description/v1.0.0">
 
   <thing-type id="syneltec_sib010_00_000" listed="false">
-    <label>SIB-010 Sibir Z-Wave Heater Controller</label>
-    <description><![CDATA[
-SIB-010 Sibir Controller<br /><h1>Overview</h1><p>The Syneltec SIB-010 is a complete electronic controller for the Sibir Thermolino heater. Integrating the standard Z-Wave protocol for home automation (domotic network), it is then compatible with most Z-Wave Room Thermostat of the market</p><p>SIB-010 implements secure handling of PowerON / PowerOFF, in the respect of the Sibir Thermolino cycles constraints</p>
-    ]]></description>
-    <category>HVAC</category>
+    <label>SIB010 Sibir Relay</label>
+    <description>Sibir temporised and securised Relay</description>
+    <category>WallSwitch</category>
 
     <!-- CHANNEL DEFINITIONS -->
-
     <channels>
-      
+    
       <channel id="switch_binary" typeId="switch_binary">
-        <label>Switch</label>
+        <label>AliasCH0 Switch ON/OFF</label>
         <properties>
-          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY</property>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY,COMMAND_CLASS_BASIC</property>
         </properties>
       </channel>
+      
+      <!-- ** SWITCH ** -->
       <channel id="switch_binary1" typeId="switch_binary">
-        <label>Switch 1</label>
+        <label>Switch Command (soll)</label>
         <properties>
-          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY</property>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY:1,COMMAND_CLASS_BASIC:1</property>
+        </properties>
+      </channel>
+      <channel id="switch_binary2" typeId="switch_binary">
+        <label>Switch Effective (ist)</label>
+        <properties>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY:2,COMMAND_CLASS_BASIC:2</property>
         </properties>
       </channel>
       
-      <!--comment-->
+      <!-- ** ALARM ** -->
+      <channel id="switch_binary3" typeId="switch_binary">
+        <label>Alarm Acknowledge</label>
+        <properties>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY:3,COMMAND_CLASS_BASIC:3</property>
+        </properties>
+      </channel>
+      <channel id="switch_binary4" typeId="switch_binary">
+        <label>Alarm State</label>
+        <properties>
+          <property name="binding:*:OnOffType">COMMAND_CLASS_SWITCH_BINARY:4,COMMAND_CLASS_BASIC:4</property>
+        </properties>
+      </channel>
+      
+      <!-- ** STATES ** -->            
+      <channel id="sensor_general5" typeId="sensor_general">
+        <label>DBG SWITCH State</label>
+        <properties>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL:5,COMMAND_CLASS_BASIC:5;type=GENERAL</property>
+        </properties>
+      </channel>
+      <channel id="sensor_general6" typeId="sensor_general">
+        <label>DBG SIBIR  State</label>
+        <properties>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL:6,COMMAND_CLASS_BASIC:6;type=GENERAL</property>
+        </properties>
+      </channel>
 
-      <channel id="sensor_general" typeId="sensor_general">
-        <label>Sensor</label>
+      <!-- ** COUNTDOWN ** -->            
+      <channel id="meter_pulse" typeId="meter_pulse">
+        <label>DBG Countdown</label>
         <properties>
-          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL;type=GENERAL</property>
+          <property name="binding:*:DecimalType">COMMAND_CLASS_METER;type=E_Pulses</property>
         </properties>
       </channel>
-      <channel id="sensor_general1" typeId="sensor_general">
-        <label>Sensor 1</label>
-        <properties>
-          <property name="binding:*:DecimalType">COMMAND_CLASS_SENSOR_MULTILEVEL:1;type=GENERAL</property>
-        </properties>
-      </channel>
-      
-      <!--comment-->      
-      
-      <channel id="meter_voltage" typeId="meter_voltage">
-        <label>Voltage</label>
-        <properties>
-          <property name="binding:*:DecimalType">COMMAND_CLASS_METER;type=E_V</property>
-        </properties>
-      </channel>
-      
+
     </channels>
+
 
     <!-- DEVICE PROPERTY DEFINITIONS -->
     <properties>
@@ -74,22 +92,28 @@ SIB-010 Sibir Controller<br /><h1>Overview</h1><p>The Syneltec SIB-010 is a comp
         <label>Configuration Parameters</label>
       </parameter-group>
 
-      <parameter name="config_64_4" type="integer" groupName="configuration" min="0" max="15">
+      <parameter name="config_11_1" type="integer" groupName="configuration" min="0" max="255">
+        <label>11: Minimal time (in seconds) between Sensor Multilevel reports</label>
+        <description>Values less than 30 should not be used to conform to Z-Wave Plus, use them for debug only!</description>
+        <default>0</default>
+      </parameter>
+
+      <parameter name="config_64_2" type="integer" groupName="configuration" min="0" max="15">
         <label>64: Command Debounce Time  (1 sec steps)</label>
         <description>Let little time while changing thermostat setpoint</description>
         <default>5</default>
       </parameter>
 
-      <parameter name="config_65_4" type="integer" groupName="configuration" min="0" max="30">
+      <parameter name="config_65_2" type="integer" groupName="configuration" min="0" max="30">
         <label>65: Relay: Minimal ON time (1 min. steps)</label>
         <description>Mask OFF order (default: 0 - off)</description>
-        <default>2</default>
+        <default>1</default>
       </parameter>
 
-      <parameter name="config_66_4" type="integer" groupName="configuration" min="0" max="30">
+      <parameter name="config_66_2" type="integer" groupName="configuration" min="0" max="30">
         <label>66: Relay: Minimal OFF time (1 min. steps)</label>
         <description>Mask ON order (default: 0 - off)</description>
-        <default>2</default>
+        <default>1</default>
       </parameter>
 
 
